@@ -1,0 +1,217 @@
+from flask import Flask, jsonify, request
+from flask_cors import CORS
+import sqlite3
+from datetime import datetime
+import smtplib
+from email.mime.text import MIMEText
+
+print("APP STARTED")
+
+app = Flask(__name__)
+CORS(app)
+
+# Home Route
+@app.route("/")
+def home():
+    return "Transformer Health Monitoring API Working"
+
+# Create Database Table
+def init_db():
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS transformer_data(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        temperature REAL,
+        voltage REAL,
+        current REAL,
+        status TEXT,
+        timestamp TEXT
+    )
+    """)
+
+    conn.commit()
+    conn.close()
+
+init_db()
+
+# GET ALL DATA
+@app.route('/api/data', methods=['GET'])
+def get_data():
+
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT * FROM transformer_data
+    ORDER BY id DESC
+    """)
+
+    rows = cursor.fetchall()
+    conn.close()
+
+    result = []
+
+    for row in rows:
+        result.append({
+            "id": row[0],
+            "temperature": row[1],
+            "voltage": row[2],
+            "current": row[3],
+            "status": row[4],
+            "timestamp": row[5]
+        })
+
+    return jsonify(result)
+def send_email_alert(status, temperature, voltage, current):
+
+    sender_email = "vigneshuupromo123@gmail.com"
+    sender_password = ""
+
+    receiver_email = "vigneshuupromo123@gmail.com"
+
+    subject = "Transformer Fault Alert"
+
+    body = f"""
+Fault Detected
+
+Status: {status}
+Temperature: {temperature}
+Voltage: {voltage}
+Current: {current}
+"""
+
+    msg = MIMEText(body)
+
+    msg["Subject"] = subject
+    msg["From"] = sender_email
+    msg["To"] = receiver_email
+
+    server = smtplib.SMTP(
+        "smtp.gmail.com",
+        587
+    )
+
+    server.starttls()
+
+    server.login(
+        sender_email,
+        sender_password
+    )
+
+    server.send_message(msg)
+
+    server.quit()
+
+# POST SENSOR DATA
+@app.route('/api/sensor', methods=['POST'])
+def add_sensor():
+
+    data = request.json
+
+    temperature = data["temperature"]
+    voltage = data["voltage"]
+    current = data["current"]
+
+    status = "Normal"
+
+    if temperature > 80:
+        status = "Overheated"
+
+    elif voltage > 260:
+        status = "Voltage Surge"
+
+    elif current > 10:
+        status = "Overload"
+
+    # EMAIL ALERT
+    if status != "Normal":
+
+        send_email_alert(
+            status,
+            temperature,
+            voltage,
+            current
+        )
+
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    INSERT INTO transformer_data
+    (temperature, voltage, current, status, timestamp)
+    VALUES (?, ?, ?, ?, ?)
+    """, (
+        temperature,
+        voltage,
+        current,
+        status,
+        datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    ))
+
+    conn.commit()
+    conn.close()
+
+    return jsonify({
+        "message": "Data Saved",
+        "status": status
+    })
+# STATS API
+@app.route('/api/stats', methods=['GET'])
+def stats():
+
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT COUNT(*) FROM transformer_data")
+    total_records = cursor.fetchone()[0]
+
+    cursor.execute("""
+    SELECT COUNT(*)
+    FROM transformer_data
+    WHERE status != 'Normal'
+    """)
+    fault_count = cursor.fetchone()[0]
+
+    conn.close()
+
+    return jsonify({
+        "total_records": total_records,
+        "fault_count": fault_count
+    })
+@app.route('/api/healthscore')
+def healthscore():
+
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "SELECT COUNT(*) FROM transformer_data"
+    )
+
+    total = cursor.fetchone()[0]
+
+    cursor.execute(
+        "SELECT COUNT(*) FROM transformer_data WHERE status != 'Normal'"
+    )
+
+    faults = cursor.fetchone()[0]
+
+    conn.close()
+
+    if total == 0:
+        score = 100
+    else:
+        score = max(
+            0,
+            100 - ((faults / total) * 100)
+        )
+
+    return jsonify({
+        "score": round(score,2)
+    })
+
+# Run App
+if __name__ == '__main__':
+    app.run(debug=True)

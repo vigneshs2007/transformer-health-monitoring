@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Transformer Health Monitoring</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<div id="alertBanner"
+     class="alert alert-success text-center">
+
+    System Normal
+
+</div>
+
+<body>
+
+<div class="container mt-5">
+
+    <h1 class="text-center mb-4">
+        Transformer Health Monitoring System
+    </h1>
+
+    <div class="text-center mb-4">
+
+        <a href="index.html" class="btn btn-primary">
+            Dashboard
+        </a>
+
+        <a href="history.html" class="btn btn-success">
+            History
+        </a>
+
+        <a href="alerts.html" class="btn btn-danger">
+            Alerts
+        </a>
+        <a href="analytics.html" class="btn btn-info">
+    Analytics
+</a>
+        <button
+    class="btn btn-warning"
+    onclick="logout()">
+
+    Logout
+
+</button>
+
+    </div>
+
+    <!-- Main Cards -->
+    <div class="row">
+
+        <div class="col-md-3">
+            <div class="card shadow">
+                <div class="card-body text-center">
+                    <h5>Temperature</h5>
+                    <h2 id="temperature">0°C</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow">
+                <div class="card-body text-center">
+                    <h5>Voltage</h5>
+                    <h2 id="voltage">0V</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow">
+                <div class="card-body text-center">
+                    <h5>Current</h5>
+                    <h2 id="current">0A</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow">
+                <div class="card-body text-center">
+                    <h5>Status</h5>
+                    <h2 id="status">Normal</h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="row mt-4">
+
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body text-center">
+                    <h5>Total Records</h5>
+                    <h2 id="totalRecords">0</h2>
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body text-center">
+                    <h5>Fault Count</h5>
+                    <h2 id="faultCount">0</h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+        <div class="row mt-4">
+
+    <div class="col-md-12">
+
+        <div class="card shadow">
+
+            <div class="card-body text-center">
+
+                <h4>Transformer Health Score</h4>
+
+                <h1 id="healthScore">
+                    100%
+                </h1>
+
+                <h5 id="healthStatus">
+                    Excellent
+                </h5>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+    <div class="row mt-4">
+
+    <div class="col-md-12">
+
+        <div class="card shadow border-danger">
+
+            <div class="card-body text-center">
+
+                <h4>Latest Fault</h4>
+
+                <h2 id="latestFault">
+                    No Fault
+                </h2>
+
+                <p id="faultTime">
+                    -
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+    <!-- Temperature Graph -->
+    <div class="row mt-4">
+
+        <div class="col-md-12">
+
+            <div class="card shadow">
+
+                <div class="card-body">
+
+                    <h4 class="text-center mb-3">
+                        Temperature Trend
+                    </h4>
+
+                    <canvas id="tempChart"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card shadow">
+            <div class="card-body">
+                <h4 class="text-center mb-3">
+                    Voltage Trend
+                </h4>
+
+                <canvas id="voltageChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card shadow">
+            <div class="card-body">
+                <h4 class="text-center mb-3">
+                    Current Trend
+                </h4>
+
+                <canvas id="currentChart"></canvas>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card shadow">
+            <div class="card-body">
+
+                <h4 class="text-center mb-3">
+                    Status Distribution
+                </h4>
+
+                <div style="width:300px; height:300px; margin:auto;">
+                    <canvas id="statusChart"></canvas>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
