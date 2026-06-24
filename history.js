@@ -1,4 +1,4 @@
-fetch("http://127.0.0.1:5000/api/data")
+fetch("/api/data")
 .then(response => response.json())
 .then(data => {
 
@@ -25,7 +25,7 @@ fetch("http://127.0.0.1:5000/api/data")
 });
 function loadHistory(){
 
-    fetch("http://127.0.0.1:5000/api/data")
+    fetch("/api/data")
     .then(response => response.json())
     .then(data => {
 
@@ -56,7 +56,7 @@ function loadHistory(){
 loadHistory();
 function exportCSV(){
 
-    fetch("http://127.0.0.1:5000/api/data")
+    fetch("/api/data")
     .then(response => response.json())
     .then(data => {
 
@@ -132,7 +132,7 @@ async function generatePDF(){
     const doc = new jsPDF();
 
     const response =
-    await fetch("http://127.0.0.1:5000/api/data");
+    await fetch("/api/data");
 
     const data =
     await response.json();
