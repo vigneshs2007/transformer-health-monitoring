@@ -14,7 +14,11 @@ CORS(app)
 # Home Route
 @app.route("/")
 def home():
-    return "Transformer Health Monitoring API Working"
+   return send_from_directory(".", "index.html")
+
+@app.route("/<path:path>")
+def static_files(path):
+    return send_from_directory(".", path)
 
 # Create Database Table
 def init_db():
