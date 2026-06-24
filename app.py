@@ -110,7 +110,21 @@ Current: {current}
     server.send_message(msg)
 
     server.quit()
+@app.route("/mailtest")
+def mailtest():
 
+    try:
+        send_email_alert(
+            "Overheated",
+            95,
+            230,
+            5
+        )
+
+        return "MAIL SENT"
+
+    except Exception as e:
+        return str(e)
 # POST SENSOR DATA
 @app.route('/api/sensor', methods=['POST'])
 def add_sensor():
