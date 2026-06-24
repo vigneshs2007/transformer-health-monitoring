@@ -135,12 +135,7 @@ def add_sensor():
     # EMAIL ALERT
     if status != "Normal":
 
-        send_email_alert(
-            status,
-            temperature,
-            voltage,
-            current
-        )
+        print("Fault detected")
 
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
