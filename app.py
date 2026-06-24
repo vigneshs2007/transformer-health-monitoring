@@ -72,10 +72,10 @@ def get_data():
 def send_email_alert(status, temperature, voltage, current):
 
  
-    sender_email = os.environ.get("EMAIL_USER")
-    sender_password = os.environ.get("EMAIL_PASS")
-    print("EMAIL FUNCTION STARTED")
-    print(sender_email)
+    sender_email = "vigneshuupromo123@gmail.com"
+    sender_password = "qwhc rwdb dqzk kkip"
+
+   
     receiver_email = "vigneshuupromo123@gmail.com"
 
     subject = "Transformer Fault Alert"
