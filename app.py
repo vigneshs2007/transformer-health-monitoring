@@ -114,6 +114,7 @@ Current: {current}
 # POST SENSOR DATA
 @app.route('/api/sensor', methods=['POST'])
 def add_sensor():
+    print("ADD SENSOR ROUTE HIT")
 
     data = request.json
 
