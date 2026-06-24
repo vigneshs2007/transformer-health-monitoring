@@ -114,8 +114,9 @@ Current: {current}
 # POST SENSOR DATA
 @app.route('/api/sensor', methods=['POST'])
 def add_sensor():
-    print("ADD SENSOR ROUTE HIT")
-
+    return jsonify({
+        "message": "ADD SENSOR TEST"
+    }) 
     data = request.json
 
     temperature = data["temperature"]
