@@ -71,11 +71,11 @@ def get_data():
     return jsonify(result)
 def send_email_alert(status, temperature, voltage, current):
 
-    print("EMAIL FUNCTION STARTED")
-    print(sender_email)
+ 
     sender_email = os.environ.get("EMAIL_USER")
     sender_password = os.environ.get("EMAIL_PASS")
-
+    print("EMAIL FUNCTION STARTED")
+    print(sender_email)
     receiver_email = "vigneshuupromo123@gmail.com"
 
     subject = "Transformer Fault Alert"
