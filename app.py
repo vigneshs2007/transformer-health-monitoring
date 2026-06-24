@@ -67,8 +67,10 @@ def get_data():
     return jsonify(result)
 def send_email_alert(status, temperature, voltage, current):
 
-    sender_email = "vigneshuupromo123@gmail.com"
-    sender_password = ""
+    
+
+    sender_email = os.environ.get("EMAIL_USER")
+    sender_password = os.environ.get("EMAIL_PASS")
 
     receiver_email = "vigneshuupromo123@gmail.com"
 
