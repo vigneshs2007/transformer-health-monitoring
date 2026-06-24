@@ -137,8 +137,8 @@ def add_sensor():
 
     print("FAULT DETECTED")
     
-     try:
-        send_email_alert(
+      try:
+         send_email_alert(
             status,
             temperature,
             voltage,
@@ -147,8 +147,8 @@ def add_sensor():
 
         print("FUNCTION CALLED")
 
-     except Exception as e:
-        print("EMAIL ERROR:", str(e))
+       except Exception as e:
+           print("EMAIL ERROR:", str(e))
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
 
