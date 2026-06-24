@@ -53,7 +53,7 @@ function loadData(){
 
 function loadStats(){
 
-    fetch("http://127.0.0.1:5000/api/stats")
+    fetch("/api/stats")
     .then(response => response.json())
     .then(data => {
 
@@ -79,7 +79,7 @@ let chart;
 
 function loadChart(){
 
-    fetch("http://127.0.0.1:5000/api/data")
+    fetch("/api/data")
     .then(response => response.json())
     .then(data => {
 
@@ -122,7 +122,7 @@ let voltageChart;
 
 function loadVoltageChart(){
 
-    fetch("http://127.0.0.1:5000/api/data")
+    fetch("/api/data")
     .then(response => response.json())
     .then(data => {
 
@@ -163,7 +163,7 @@ let currentChart;
 
 function loadCurrentChart(){
 
-    fetch("http://127.0.0.1:5000/api/data")
+    fetch("/api/data")
     .then(response => response.json())
     .then(data => {
 
@@ -206,7 +206,7 @@ let statusChart;
 
 function loadStatusChart(){
 
-    fetch("http://127.0.0.1:5000/api/data")
+    fetch("/api/data")
     .then(response => response.json())
     .then(data => {
 
@@ -271,7 +271,7 @@ loadStatusChart();
 setInterval(loadStatusChart,5000);
 function loadLatestFault(){
 
-    fetch("http://127.0.0.1:5000/api/data")
+    fetch("/api/data")
     .then(response => response.json())
     .then(data => {
 
@@ -303,7 +303,7 @@ loadLatestFault();
 setInterval(loadLatestFault,5000);
 function loadAlertBanner(){
 
-    fetch("http://127.0.0.1:5000/api/data")
+    fetch("/api/data")
     .then(response => response.json())
     .then(data => {
 
@@ -351,7 +351,7 @@ function logout(){
 function loadHealthScore(){
 
     fetch(
-        "http://127.0.0.1:5000/api/healthscore"
+        "/api/healthscore"
     )
 
     .then(response => response.json())
