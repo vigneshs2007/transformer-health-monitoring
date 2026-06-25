@@ -72,45 +72,23 @@ def get_data():
     return jsonify(result)
 def send_email_alert(status, temperature, voltage, current):
 
- 
-    sender_email = "vigneshuupromo123@gmail.com"
-    sender_password = "qwhc rwdb dqzk kkip"
+    resend.api_key = os.environ.get("RESEND_API_KEY")
 
-   
-    receiver_email = "vigneshuupromo123@gmail.com"
+    resend.Emails.send({
+        "from": "onboarding@resend.dev",
+        "to": "vigneshuupromo123@gmail.com",
+        "subject": "Transformer Fault Alert",
+        "html": f"""
+        <h2>⚠ Transformer Fault Detected</h2>
 
-    subject = "Transformer Fault Alert"
+        <p><b>Status:</b> {status}</p>
+        <p><b>Temperature:</b> {temperature}°C</p>
+        <p><b>Voltage:</b> {voltage}V</p>
+        <p><b>Current:</b> {current}A</p>
+        """
+    })
 
-    body = f"""
-Fault Detected
-
-Status: {status}
-Temperature: {temperature}
-Voltage: {voltage}
-Current: {current}
-"""
-
-    msg = MIMEText(body)
-
-    msg["Subject"] = subject
-    msg["From"] = sender_email
-    msg["To"] = receiver_email
-
-    server = smtplib.SMTP(
-        "smtp.gmail.com",
-        587
-    )
-
-    server.starttls()
-
-    server.login(
-        sender_email,
-        sender_password
-    )
-
-    server.send_message(msg)
-
-    server.quit()
+    print("EMAIL SENT SUCCESSFULLY")
 import socket
 
 @app.route("/testsmtp")
