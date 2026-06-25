@@ -5,6 +5,7 @@ from datetime import datetime
 import smtplib
 from email.mime.text import MIMEText
 import os
+import resend
 
 print("APP STARTED")
 
