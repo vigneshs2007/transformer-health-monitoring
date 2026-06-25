@@ -91,18 +91,18 @@ def send_email_alert(status, temperature, voltage, current):
 
     print(response)
     print("EMAIL SENT SUCCESSFULLY")
-import socket
-
-@app.route("/testsmtp")
-def testsmtp():
+@app.route("/mailtest")
+def mailtest():
 
     try:
-        socket.create_connection(
-            ("smtp.gmail.com", 587),
-            timeout=10
+        send_email_alert(
+            "Overheated",
+            95,
+            230,
+            5
         )
 
-        return "SMTP OK"
+        return "MAIL SENT"
 
     except Exception as e:
         return str(e)
