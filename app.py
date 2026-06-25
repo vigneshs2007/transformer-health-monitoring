@@ -107,9 +107,7 @@ def testsmtp():
 # POST SENSOR DATA
 @app.route('/api/sensor', methods=['POST'])
 def add_sensor():
-    return jsonify({
-        "message": "ADD SENSOR TEST"
-    }) 
+    
     data = request.json
 
     temperature = data["temperature"]
