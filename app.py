@@ -74,20 +74,22 @@ def send_email_alert(status, temperature, voltage, current):
 
     resend.api_key = os.environ.get("RESEND_API_KEY")
 
-    resend.Emails.send({
+    params = {
         "from": "onboarding@resend.dev",
-        "to": "vigneshuupromo123@gmail.com",
+        "to": ["vigneshuupromo123@gmail.com"],
         "subject": "Transformer Fault Alert",
         "html": f"""
-        <h2>⚠ Transformer Fault Detected</h2>
-
-        <p><b>Status:</b> {status}</p>
-        <p><b>Temperature:</b> {temperature}°C</p>
-        <p><b>Voltage:</b> {voltage}V</p>
-        <p><b>Current:</b> {current}A</p>
+        <h2>Transformer Fault Detected</h2>
+        <p>Status: {status}</p>
+        <p>Temperature: {temperature}</p>
+        <p>Voltage: {voltage}</p>
+        <p>Current: {current}</p>
         """
-    })
+    }
 
+    response = resend.Emails.send(params)
+
+    print(response)
     print("EMAIL SENT SUCCESSFULLY")
 import socket
 
