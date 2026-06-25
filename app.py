@@ -110,18 +110,18 @@ Current: {current}
     server.send_message(msg)
 
     server.quit()
-@app.route("/mailtest")
-def mailtest():
+import socket
+
+@app.route("/testsmtp")
+def testsmtp():
 
     try:
-        send_email_alert(
-            "Overheated",
-            95,
-            230,
-            5
+        socket.create_connection(
+            ("smtp.gmail.com", 587),
+            timeout=10
         )
 
-        return "MAIL SENT"
+        return "SMTP OK"
 
     except Exception as e:
         return str(e)
