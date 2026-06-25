@@ -76,7 +76,7 @@ def send_email_alert(status, temperature, voltage, current):
 
     params = {
         "from": "onboarding@resend.dev",
-        "to": ["vigneshsrii12345@gmail.com"]
+        "to": ["vigneshsrii12345@gmail.com"],
         "subject": "Transformer Fault Alert",
         "html": f"""
         <h2>Transformer Fault Detected</h2>
